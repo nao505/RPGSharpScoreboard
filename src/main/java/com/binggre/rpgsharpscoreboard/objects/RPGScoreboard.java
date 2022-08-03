@@ -4,10 +4,7 @@ import com.binggre.rpgsharpscoreboard.RPGSharpScoreboard;
 import com.binggre.rpgsharpskillplus.objects.PlayerSkillPlusLoader;
 import com.google.gson.JsonObject;
 import com.hj.rpgsharp.rpg.apis.rpgsharp.RPGSharpAPI;
-import com.hj.rpgsharp.rpg.apis.rpgsharp.utils.FileUtil;
-import com.hj.rpgsharp.rpg.apis.rpgsharp.utils.HexColorUtil;
-import com.hj.rpgsharp.rpg.apis.rpgsharp.utils.ItemUtil;
-import com.hj.rpgsharp.rpg.apis.rpgsharp.utils.NumberUtil;
+import com.hj.rpgsharp.rpg.apis.rpgsharp.utils.*;
 import com.hj.rpgsharp.rpg.objects.RPGBuff;
 import com.hj.rpgsharp.rpg.objects.RPGPlayer;
 import com.hj.rpgsharp.rpg.plugins.party.objects.Party;
@@ -155,6 +152,12 @@ public class RPGScoreboard {
             if (str.contains("<account_nickname>")) {
                 str = replace(str, "<account_nickname>", rpgPlayer.getDefaultName());
             }
+            if (str.contains("<online_size>")) {
+                str = replace(str, "<online_size>", Bukkit.getOnlinePlayers().size() + "");
+            }
+            if (str.contains("<money>")) {
+                str = replace(str, "<money>", NumberUtil.getCommaNumber(EconomyUtil.getMoney(rpgPlayer.toPlayer())));
+            }
             if (str.contains("<job>")) {
                 str = replace(str, "<job>", rpgPlayer.getJob(true));
             }
@@ -174,7 +177,7 @@ public class RPGScoreboard {
             if (str.contains("<stat_point>")) {
                 str = replace(str, "<stat_point>", rpgPlayer.getStatPoint() + "");
             }
-            if (str.contains("<skill_point>") && isEnablePlugin("RPGSharpSkillPlus")) {
+            if (str.contains("<skill_point>")) {
                 str = (isEnablePlugin("RPGSharpSkillPlus")) ?
                         replace(str, "<skill_point>", PlayerSkillPlusLoader.get(rpgPlayer).getSkillPoint() + "")
                         :

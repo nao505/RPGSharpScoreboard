@@ -1,8 +1,10 @@
 {
   "제목": "<player>의 정보",
   "내용": [
+    "접속자 수 : <online_size>",
     "닉네임 : <nickname> ( <account_nickname> )",
     "직업 : <job>",
+    "돈 : <money>",
     "칭호 : <title>",
     "레벨 : <level>",
     "직업 : <job>",
