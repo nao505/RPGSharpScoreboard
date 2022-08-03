@@ -22,7 +22,7 @@ public class CharacterListener implements Listener {
         }
         if (!ScoreboardScheduler.isStart()) {
             BukkitRunnable bukkitRunnable = new ScoreboardScheduler();
-            bukkitRunnable.runTaskTimerAsynchronously(RPGSharpScoreboard.getInstance(), 0, 20);
+            bukkitRunnable.runTaskTimerAsynchronously(RPGSharpScoreboard.getInstance(), 0, 10);
         }
     }
 }

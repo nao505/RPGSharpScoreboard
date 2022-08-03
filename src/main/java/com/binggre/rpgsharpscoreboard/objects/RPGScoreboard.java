@@ -128,13 +128,17 @@ public class RPGScoreboard {
             String health;
             String distance;
             String str;
+            Player player = rpgPlayer.toPlayer();
             for (Player member : party.getPlayers()) {
-                if (member == rpgPlayer.toPlayer()) {
+                if (member == player) {
                     continue;
                 }
                 nickname = member.getName();
                 health = NumberUtil.decimalFormat(NumberUtil.getPercentage(member.getHealth(), member.getMaxHealth()), 1);
-                distance = NumberUtil.decimalFormat(member.getLocation().distance(rpgPlayer.toPlayer().getLocation()), 2);
+                distance = (member.getWorld() == player.getWorld()) ?
+                        NumberUtil.decimalFormat(member.getLocation().distance(player.getLocation()), 2)
+                        :
+                        "?";
                 str = PARTY_PLACEHOLDER
                         .replace("<party_member>", nickname)
                         .replace("<party_member_health>", health)
