@@ -2,6 +2,7 @@ package com.binggre.rpgsharpscoreboard.scheduler;
 
 import com.binggre.rpgsharpscoreboard.objects.RPGScoreboard;
 import com.hj.rpgsharp.rpg.apis.rpgsharp.RPGSharpAPI;
+import com.hj.rpgsharp.rpg.apis.rpgsharp.utils.NumberUtil;
 import com.hj.rpgsharp.rpg.objects.RPGPlayer;
 import com.hj.rpgsharp.rpg.objects.RPGPlayerLoader;
 import org.bukkit.scheduler.BukkitRunnable;

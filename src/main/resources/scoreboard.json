@@ -12,5 +12,9 @@
     "&1"
   ],
 
+  "파티": {
+    "제목": "<player> 님의 파티",
+    "내용": "<party_member>님 - [체력 <party_member_health>% / 거리 <party_member_distance> "
+  },
   "버프": "<buff_name> &f: <buff_cooldown> 초 남았습니다."
 }
