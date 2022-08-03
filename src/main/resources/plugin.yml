@@ -1,0 +1,5 @@
+name: RPGSharpScoreboard
+version: '${version}'
+main: com.binggre.rpgsharpscoreboard.RPGSharpScoreboard
+api-version: 1.18
+depend: [ RpgSharp ]

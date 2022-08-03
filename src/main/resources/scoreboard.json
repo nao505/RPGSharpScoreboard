@@ -1,0 +1,16 @@
+{
+  "제목": "<player>의 정보",
+  "내용": [
+    "닉네임 : <nickname> ( <account_nickname> )",
+    "직업 : <job>",
+    "칭호 : <title>",
+    "레벨 : <level>",
+    "직업 : <job>",
+    "경험치 : <exp>%",
+    "스탯 포인트 : <stat_point>",
+    "스킬 포인트 : <skill_point>",
+    "&1"
+  ],
+
+  "버프": "<buff_name> &f: <buff_cooldown> 초 남았습니다."
+}
