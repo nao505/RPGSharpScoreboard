@@ -7,6 +7,8 @@ import com.hj.rpgsharp.rpg.objects.RPGPlayer;
 import com.hj.rpgsharp.rpg.objects.RPGPlayerLoader;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+
 public class ScoreboardScheduler extends BukkitRunnable {
 
     private static boolean start = false;
@@ -28,13 +30,12 @@ public class ScoreboardScheduler extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (RPGPlayerLoader.getOnlineRPGPlayers().isEmpty()) {
+        List<RPGPlayer> onlineRPGPlayers = RPGSharpAPI.getRPGPlayerAPI().getOnlineRPGPlayers();
+        if (onlineRPGPlayers.isEmpty()) {
             setStart(false);
             cancel();
             return;
         }
-        for (RPGPlayer rpgPlayer : RPGSharpAPI.getRPGPlayerAPI().getOnlineRPGPlayers()) {
-            rpgScoreboard.update(rpgPlayer);
-        }
+        onlineRPGPlayers.forEach(rpgScoreboard::update);
     }
 }
