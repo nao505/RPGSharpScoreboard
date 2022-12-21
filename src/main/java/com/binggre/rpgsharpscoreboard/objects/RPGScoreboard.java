@@ -30,27 +30,27 @@ public class RPGScoreboard {
 
     public final String CRITERIA_NAME;
     private final Scoreboard CLEAR;
-    private final Map<String, Scoreboard> SCOREBOARD;
+    private final Map<String, Scoreboard> SCOREBOARDS;
     private final String DELETE_KEY;
 
-    private String TITLE;
-    private String BUFF_PLACEHOLDER;
-    private String PARTY_TITLE;
-    private String PARTY_PLACEHOLDER;
-    private List<String> TEXT_CONTENTS;
+    private String title;
+    private String buffPlaceholder;
+    private String partyTitle;
+    private String partyPlaceholder;
+    private List<String> textContents;
 
     private RPGScoreboard() {
         this.CLEAR = createNewScoreboard();
-        this.SCOREBOARD = new HashMap<>();
-        this.TITLE = null;
-        this.BUFF_PLACEHOLDER = null;
-        this.TEXT_CONTENTS = new ArrayList<>();
+        this.SCOREBOARDS = new HashMap<>();
+        this.title = null;
+        this.buffPlaceholder = null;
+        this.textContents = new ArrayList<>();
         this.CRITERIA_NAME = "RPGSharpScoreboard";
         this.DELETE_KEY = "RPGSharpScoreboard_Delete_Key";
     }
 
     public Map<String, Scoreboard> getScoreboard() {
-        return SCOREBOARD;
+        return SCOREBOARDS;
     }
 
     public void update(RPGPlayer rpgPlayer) {
@@ -69,19 +69,25 @@ public class RPGScoreboard {
 
     private Objective createObjective(String nickname) {
         Scoreboard scoreboard = getScoreboard().get(nickname);
-        if (scoreboard.getObjective(nickname) != null) {
+        Objective objective;
+        if (scoreboard == null) {
+            scoreboard = createNewScoreboard();
+            objective = scoreboard.registerNewObjective(nickname, CRITERIA_NAME);
+            getScoreboard().put(nickname, scoreboard);
+        } else {
             scoreboard.getObjective(nickname).unregister();
+            objective = scoreboard.registerNewObjective(nickname, CRITERIA_NAME);
         }
-        return scoreboard.registerNewObjective(nickname, CRITERIA_NAME);
+        return objective;
     }
 
     private void setDisplayName(RPGPlayer rpgPlayer, Objective objective) {
-        objective.setDisplayName(TITLE.replace("<player>", rpgPlayer.getNickname()));
+        objective.setDisplayName(title.replace("<player>", rpgPlayer.getNickname()));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
     private void reloadObjective(RPGPlayer rpgPlayer, Objective objective) {
-        List<String> copyTextContents = new ArrayList<>(TEXT_CONTENTS);
+        List<String> copyTextContents = new ArrayList<>(textContents);
         setContents(rpgPlayer, copyTextContents);
         int line = copyTextContents.size();
         for (String str : copyTextContents) {
@@ -107,7 +113,7 @@ public class RPGScoreboard {
             for (String dataCode : buffs) {
                 buffName = RPGSharpAPI.getRPGItemAPI().getRPGItem(dataCode).getFakeItem().getDisplayName();
                 buffCooldown = rpgBuff.getBuffDuration(dataCode);
-                str = BUFF_PLACEHOLDER
+                str = buffPlaceholder
                         .replace("<buff_name>", buffName)
                         .replace("<buff_cooldown>", buffCooldown + "");
                 textContents.add(str);
@@ -120,7 +126,7 @@ public class RPGScoreboard {
                 break party;
             }
             textContents.add("");
-            textContents.add(PARTY_TITLE.replace("<player>", RPGSharpAPI.getRPGPlayerAPI().getRPGPlayer(party.getLeader()).getNickname()));
+            textContents.add(partyTitle.replace("<player>", RPGSharpAPI.getRPGPlayerAPI().getRPGPlayer(party.getLeader()).getNickname()));
             String nickname;
             String health;
             String distance;
@@ -136,7 +142,7 @@ public class RPGScoreboard {
                         NumberUtil.decimalFormat(member.getLocation().distance(player.getLocation()), 2)
                         :
                         "?";
-                str = PARTY_PLACEHOLDER
+                str = partyPlaceholder
                         .replace("<party_member>", nickname)
                         .replace("<party_member_health>", health)
                         .replace("<party_member_distance>", distance);
@@ -210,10 +216,10 @@ public class RPGScoreboard {
         List<String> textContents = FileUtil.getStringList(json.get("내용").getAsJsonArray());
         ItemUtil.colored(textContents);
 
-        TITLE = HexColorUtil.format(json.get("제목").getAsString().replace("&", "§"));
-        PARTY_TITLE = HexColorUtil.format(json.getAsJsonObject("파티").get("제목").getAsString().replace("&", "§"));
-        PARTY_PLACEHOLDER = HexColorUtil.format(json.getAsJsonObject("파티").get("내용").getAsString().replace("&", "§"));
-        BUFF_PLACEHOLDER = HexColorUtil.format(json.get("버프").getAsString().replace("&", "§"));
-        TEXT_CONTENTS = textContents;
+        title = HexColorUtil.format(json.get("제목").getAsString().replace("&", "§"));
+        partyTitle = HexColorUtil.format(json.getAsJsonObject("파티").get("제목").getAsString().replace("&", "§"));
+        partyPlaceholder = HexColorUtil.format(json.getAsJsonObject("파티").get("내용").getAsString().replace("&", "§"));
+        buffPlaceholder = HexColorUtil.format(json.get("버프").getAsString().replace("&", "§"));
+        this.textContents = textContents;
     }
 }
