@@ -6,14 +6,18 @@ import com.binggre.rpgsharpscoreboard.scheduler.ScoreboardScheduler;
 import com.hj.rpgsharp.rpg.apis.rpgsharp.events.character.CharacterCreateEvent;
 import com.hj.rpgsharp.rpg.apis.rpgsharp.events.character.CharacterLoadEvent;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class CharacterListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onCharacterCreate(CharacterCreateEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         RPGScoreboard rpgScoreboard = RPGScoreboard.getInstance();
         String nickname = event.getRPGPlayer().getNickname();
         Scoreboard scoreboard = rpgScoreboard.createNewScoreboard();
