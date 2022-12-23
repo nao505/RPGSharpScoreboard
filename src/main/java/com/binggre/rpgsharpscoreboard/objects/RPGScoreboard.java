@@ -75,7 +75,10 @@ public class RPGScoreboard {
             objective = scoreboard.registerNewObjective(nickname, CRITERIA_NAME);
             getScoreboard().put(nickname, scoreboard);
         } else {
-            scoreboard.getObjective(nickname).unregister();
+            try {
+                scoreboard.getObjective(nickname).unregister();
+            } catch (Exception ignore) {
+            }
             objective = scoreboard.registerNewObjective(nickname, CRITERIA_NAME);
         }
         return objective;
