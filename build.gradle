@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.binggre'
-version = '1.0.4'
+version = '1.0.5'
 jar {
     destinationDir(file("C:\\Users\\pseon\\Desktop\\1.18.2\\plugins"))
 }
