@@ -97,6 +97,7 @@ public class RPGScoreboard {
             if (str.equals(DELETE_KEY)) {
                 continue;
             }
+            str = HexColorUtil.format(str).replace("&", "§");
             objective.getScore(str).setScore(line);
             line--;
         }
